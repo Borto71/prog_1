@@ -12,7 +12,6 @@ int calcolo_lunghezza(char stringa[]){
     return cont;
 }
 
-
 int main(){
     char stringa[LEN];
     printf("Inserire una stringa (lunghezza massima 30): ");
