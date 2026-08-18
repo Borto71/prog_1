@@ -34,4 +34,6 @@ int main(){
 
     int risultato = calcolaSomma(array, n);
     printf("\nLa somma di tutti i valori dell'array è: %d", risultato);
+
+    free(array);
 }
