@@ -15,7 +15,8 @@
   Non si modifichi il resto del codice. Si aggiungano gli #include necessari.
 */
 
-// AGGIUNGERE GLI #include NECESSARI
+#include <stdio.h>
+#include <stdlib.h>
 
 struct date {
   int day;
@@ -41,7 +42,16 @@ void print_list(List *l) {
   continua con next. Non si controlli la validità della data day/month/year.
 */
 List *construct_list(int day, int month, int year, List *next) {
-  // IMPLEMENTARE
+    List *nuovo_nodo = (struct list*) malloc(sizeof(struct list));
+    nuovo_nodo->value = malloc(sizeof(struct date));
+
+    nuovo_nodo->value->day = day;
+    nuovo_nodo->value->month = month;
+    nuovo_nodo->value->year = year;
+
+    nuovo_nodo->next = next;
+
+    return nuovo_nodo;
 }
 
 /*
@@ -55,7 +65,11 @@ List *construct_list(int day, int month, int year, List *next) {
    date. Questa funzione deve essere ricorsiva.
 */
 List *list_from_array(int arr[], int length) {
-  // IMPLEMENTARE, DEVE ESSERE RICORSIVA
+  if(length == 0){ // caso base
+    return NULL;
+  }
+
+  return construct_list(arr[0], arr[1], arr[2], list_from_array(arr + 3, length-3));
 }
 
 /*
