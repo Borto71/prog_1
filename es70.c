@@ -52,8 +52,6 @@ int main() {
         }
     }
     
-    
-	
 	printf("Mappa aggiornata:\n");
     
     for(i=0; i<NR; i++) {
