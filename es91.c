@@ -81,9 +81,31 @@ int main() {
    ============================================== */
 
 int is_crescente(char *s) {
-    // IMPLEMENTARE IN MODO RICORSIVO
+    if(s[0] == '\0' || s[1] == '\0'){
+        return 1;
+    }
+
+    if(s[0] > s[1]){
+        return 0;
+    }
+
+    return is_crescente(s + 1);
 }
 
 Lista rimuovi_non_crescenti(Lista l) {
-    // IMPLEMENTARE IN MODO RICORSIVO
+    if(l = NULL){
+        return NULL;
+    }
+
+    l->next = rimuovi_non_crescenti(l->next);
+
+    if(is_crescente(l->parola) == 0){
+        Nodo *temp = l->next;
+        free(l->parola);
+        free(l);
+
+        return temp;
+    }
+
+    return l;
 }
