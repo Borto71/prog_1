@@ -97,13 +97,51 @@ void stampa_coda(Paziente *testa) {
    ============================================== */
 
 Paziente* push_coda(Paziente *testa, int id, int gravita) {
-    // Il tuo codice qui
+    Paziente *nuovo_paziente = (Paziente *) malloc(sizeof(Paziente));
+
+    nuovo_paziente->id = id;
+    nuovo_paziente->gravita = gravita;
+    nuovo_paziente->next = NULL;
+
+    if(testa == NULL){
+        return nuovo_paziente;
+    }
+    
+
+    Paziente *temp = testa;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+
+    temp->next = nuovo_paziente;
+    return testa;
 }
 
 Paziente* pop_coda(Paziente *testa, int *id_estratto) {
-    // Il tuo codice qui
+    Paziente *temp = testa;
+
+    if(testa == NULL){
+        *id_estratto = -1;
+        return NULL;
+    }
+
+    *id_estratto = temp->id;
+    
+    testa = testa->next; 
+    free(temp);
+
+    return testa;
 }
 
 int conta_rossi(Paziente *testa) {
-    // Il tuo codice qui (RICORSIVA)
+    if(testa == NULL){
+        return 0;
+    }
+
+    if(testa->gravita == 3){
+        return 1 + conta_rossi(testa->next);
+    }
+
+    return 0 + conta_rossi(testa->next);
 }
