@@ -1,59 +1,97 @@
 /*
-  Sia data una matrice quadrata di interi di dimensione N x N.
+  Una lista di prefissi è una lista di stringhe, che sono tutti i prefissi
+  di una stringa di partenza, dal più lungo al più piccolo (cioè al prefisso
+  vuoto). Per esempio, i prefissi di "Buongiorno!" sono la lista:
 
-  Si dice che la matrice forma un "Quadrato Magico" (nella sua 
-  versione semplificata) se la somma degli elementi di ogni riga, 
-  la somma degli elementi di ogni colonna e la somma degli elementi 
-  di ENTRAMBE le diagonali (principale e secondaria) restituiscono 
-  tutte esattamente lo STESSO valore.
+  0: Buongiorno!
+  1: Buongiorno
+  2: Buongiorn
+  3: Buongior
+  4: Buongio
+  5: Buongi
+  6: Buong
+  7: Buon
+  8: Buo
+  9: Bu
+  10: B
+  11: 
 
-  Ad esempio, questa matrice 3x3 è un quadrato magico perché 
-  righe, colonne e diagonali sommano tutte a 15:
-  8  1  6
-  3  5  7
-  4  9  2
+  Si implementi la funzione crea_prefissi, che crea una nuova lista dei
+  prefissi di una stringa passata come argomento, e la funzione
+  free_list, che dealloca tutta la memoria allocata per la lista
+  passata come argomento (cioè sia la lista che le stringhe contenute
+  dentro la lista).
 
-  Si completi il programma implementando il sottoprogramma:
-  int is_quadrato_magico(int M[N][N])
+  La funzione crea_prefissi deve essere ricorsiva o chiamare una
+  funzione ausiliaria ricorsiva o richiamare una funzione ausiliaria
+  ricorsiva e deve allocare dinamicamente
+  la stringa contenente ciascun prefisso (deve essere una nuova stringa).
 
-  Il sottoprogramma deve restituire 1 se la matrice è un quadrato 
-  magico, e 0 in caso contrario.
+  Si aggiungano gli #include necessari.
 
-  Il main è già fornito e non deve essere modificato.
+  Il resto del programma non deve venire modificato.
 */
 
-#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#define N 3
+typedef struct list {
+  char *prefisso;
+  struct list *next;
+} List;
 
-// Prototipo
-int is_quadrato_magico(int M[N][N]);
-
-int main() {
-    int matrice[N][N];
-    int i, j;
-
-    printf("Inserisci i %d valori della matrice %dx%d:\n", N*N, N, N);
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            scanf("%d", &matrice[i][j]);
-        }
-    }
-
-    if (is_quadrato_magico(matrice) == 1) {
-        printf("\nLa matrice E' un Quadrato Magico!\n");
-    } else {
-        printf("\nLa matrice NON e' un Quadrato Magico.\n");
-    }
-
-    return 0;
+List *construct_list(char *prefisso, List *next) {
+  List *result = malloc(sizeof(List));
+  result->prefisso = prefisso;  
+  result->next = next;
+  return result;
 }
 
-/* ==============================================
-   IMPLEMENTARE IL SEGUENTE SOTTOPROGRAMMA
-   ============================================== */
+void print_list(List *l) {
+  int counter = 0;
+  for (List *cursor = l; cursor != NULL; cursor = cursor->next)
+    printf("%i: %s\n", counter++, cursor->prefisso);
+}
 
-int is_quadrato_magico(int M[N][N]) {
-    // INSERISCI QUI IL TUO CODICE
-    
+// Crea una nuova lista dei prefissi di s.
+// La funzione crea_prefissi deve essere ricorsiva o chiamare una
+// funzione ausiliaria ricorsiva e deve allocare dinamicamente
+// la stringa contenente ciascun prefisso (deve essere una nuova stringa).
+List *crea_prefissi(const char *s) {
+    return crea_prefissi_aux(s, strlen(s));
+}
+
+List *crea_prefissi_aux(const char *s, int len){
+    if(len < 0){
+        return NULL;
+    }
+
+    char *nuovo_prefisso = malloc(len + 1);
+
+    strncpy(nuovo_prefisso,s, len);
+    nuovo_prefisso[len] = '\0';
+
+    return construct_list(nuovo_prefisso, crea_prefissi_aux(s, len - 1));
+}
+
+// Dealloca tutta la memoria allocata per l (dealloca sia la lista
+// che i prefissi al suo interno)
+void free_list(List *l) {
+    if(l == NULL){
+        return NULL;
+    }
+
+  free_list(l->next);
+
+  free(l->prefisso);
+  free(l);
+}
+
+int main(void) {
+  char s[101];
+  scanf("%100s", s);
+  List *l = crea_prefissi(s);
+  print_list(l);
+  free_list(l);
+  return 0;
 }
