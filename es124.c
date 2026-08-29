@@ -25,7 +25,16 @@ typedef struct list {
   DEVE essere ricorsiva.
 */
 List *inserisci_ordinato(List *l, int val) {
-  // IMPLEMENTARE (DEVE ESSERE RICORSIVA)
+  if(val < l->value || l == NULL){
+    List *nuovo_nodo = malloc(sizeof(List)); // creo il nuovo nodo
+    nuovo_nodo->value = val;
+    nuovo_nodo->next = l;
+
+    return nuovo_nodo;
+  }
+
+  l->next = inserisci_ordinato(l->next, val);
+  return l;
 }
 
 void print_list(List *l) {
