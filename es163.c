@@ -61,14 +61,14 @@ int contaseq(char *s) {
     }
 
     if(s[1] == '\0'){
-        return 0;
+        return 1;
     }
 
-    if(s[0] - s[1] == 1){
-        return 1 + contaseq(s + 1);
+    if(s[0] - s[1] == -1){
+        return 1;
     }
 
-    return 0 + contaseq(s + 1);
+    return 1 + contaseq(s + 1);
 }
 
 int conta(char *nome, int soglia){
