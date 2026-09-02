@@ -2,8 +2,7 @@
 #define N 3
 #define M 4
 #define K 3
-int main(){
-  int sum; 
+int main(){ 
   int mat[N][M];
   int vec[K];
   int type;
@@ -28,7 +27,7 @@ int main(){
     for(k = 0; k < K; k++){
         int P = vec[k];
 
-        if(P < 0 || P > N*M){
+        if(P < 1 || P > N*M){
             errore = 1;
             break;
         }
@@ -38,6 +37,7 @@ int main(){
 
         somma += mat[r][c];
     }
+
     if(errore == 1){
         printf("-1");
     } else {
@@ -52,7 +52,7 @@ int main(){
     for(k = 0; k < K; k++){
         int P = vec[k];
 
-        if(P < 0 || P > N*M){
+        if(P < 1 || P > N*M){
             errore = 1;
             break;
         }
@@ -60,9 +60,11 @@ int main(){
         int centro_r = (P-1) / M;
         int centro_c = (P-1) % M;
 
-        for(int r = centro_r - 1; r < centro_r + 1; r++){
-            for(int c = centro_c - 1; c < centro_c + 1; c++){
-                somma += mat[r][c];
+        for(int r = centro_r - 1; r <= centro_r + 1; r++){
+            for(int c = centro_c - 1; c <= centro_c + 1; c++){
+                if(r >= 0 && r < N && c >= 0 && c < M){
+                    somma += mat[r][c];
+                }
             }
         }
     }
